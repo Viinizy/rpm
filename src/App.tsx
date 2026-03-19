@@ -51,24 +51,23 @@ const Navbar = () => {
 
   return (
     <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 py-4",
-      isScrolled ? "bg-brand-dark/80 backdrop-blur-lg border-b border-white/10 py-3" : "bg-transparent"
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 py-4",
+      isScrolled ? "bg-brand-dark/90 backdrop-blur-xl border-b border-white/5 py-3 shadow-2xl" : "bg-transparent"
     )}>
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-2">
           <img 
             src="/logo.png" 
             alt="RPM CAR Logo" 
-            className="h-12 md:h-16 w-auto object-contain"
+            className="h-10 md:h-14 w-auto object-contain"
             referrerPolicy="no-referrer"
             onError={(e) => {
-              // Fallback if logo.png is not found
               e.currentTarget.style.display = 'none';
               const fallback = document.createElement('div');
               fallback.className = "flex items-center gap-2";
               fallback.innerHTML = `
-                <span class="text-xl font-bold tracking-tighter">
-                  RPM CAR <span class="text-brand-primary">AUTOCENTER</span>
+                <span class="text-xl font-black tracking-tighter">
+                  RPM CAR <span class="text-brand-yellow">AUTOCENTER</span>
                 </span>
               `;
               e.currentTarget.parentElement!.appendChild(fallback);
@@ -77,21 +76,22 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-10">
           {navLinks.map((link) => (
             <a 
               key={link.name} 
               href={link.href}
-              className="text-sm font-medium hover:text-brand-vibrant transition-colors"
+              className="text-sm font-semibold tracking-wide hover:text-brand-yellow transition-all duration-300 relative group"
             >
               {link.name}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-yellow transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
           <a 
             href="https://wa.me/551134315654" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="bg-brand-yellow text-brand-dark px-5 py-2 rounded-full font-bold text-sm hover:scale-105 transition-transform active:scale-95 shadow-lg shadow-brand-yellow/20"
+            className="bg-brand-yellow text-brand-dark px-6 py-2.5 rounded-full font-black text-sm hover:scale-105 transition-all active:scale-95 shadow-[0_0_20px_rgba(250,204,21,0.3)] hover:shadow-[0_0_30px_rgba(250,204,21,0.5)]"
           >
             AGENDAR AGORA
           </a>
@@ -99,10 +99,10 @@ const Navbar = () => {
 
         {/* Mobile Toggle */}
         <button 
-          className="md:hidden text-white"
+          className="md:hidden text-white p-2"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {isMobileMenuOpen ? <X /> : <Menu />}
+          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
@@ -110,24 +110,30 @@ const Navbar = () => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 bg-brand-dark/95 backdrop-blur-xl border-b border-white/10 p-6 flex flex-col gap-4 md:hidden"
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 100 }}
+            className="fixed inset-0 top-0 left-0 w-full h-screen bg-brand-dark/98 backdrop-blur-2xl z-[60] flex flex-col items-center justify-center gap-8 md:hidden"
           >
+            <button 
+              className="absolute top-6 right-6 text-white"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <X size={32} />
+            </button>
             {navLinks.map((link) => (
               <a 
                 key={link.name} 
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-lg font-medium border-b border-white/5 pb-2"
+                className="text-3xl font-black tracking-tighter hover:text-brand-yellow transition-colors"
               >
                 {link.name}
               </a>
             ))}
             <a 
               href="https://wa.me/551134315654" 
-              className="bg-brand-yellow text-brand-dark text-center py-3 rounded-xl font-bold"
+              className="bg-brand-yellow text-brand-dark px-10 py-4 rounded-full font-black text-xl shadow-2xl"
             >
               FALAR NO WHATSAPP
             </a>
@@ -149,11 +155,12 @@ const Hero = () => {
         style={{ y: y1 }}
         className="absolute inset-0 z-0"
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/40 via-brand-dark/70 to-brand-dark z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/60 via-brand-dark/80 to-brand-dark z-10" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15)_0%,transparent_70%)] z-10" />
         <motion.img 
-          initial={{ scale: 1.1 }}
+          initial={{ scale: 1.2 }}
           animate={{ scale: 1 }}
-          transition={{ duration: 10, repeat: Infinity, repeatType: "reverse" }}
+          transition={{ duration: 15, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
           src="https://lh3.googleusercontent.com/p/AF1QipO7NFABCB3CD-dCzAlAB19pou6XJc_uAvQ-SsY2=s1600" 
           alt="Fachada Rpm Car Autocenter"
           className="w-full h-full object-cover"
@@ -163,49 +170,64 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-20 max-w-7xl mx-auto px-6 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1, ease: "easeOut" }}
         >
-          <span className="inline-block px-4 py-1 rounded-full bg-brand-vibrant/20 border border-brand-vibrant/30 text-brand-vibrant text-xs font-bold tracking-widest uppercase mb-6">
-            13 Anos de Excelência em Osasco
-          </span>
-          <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-6 leading-[0.9]">
-            CONFIANÇA E <br />
-            <span className="text-brand-primary text-glow-blue italic">QUALIDADE</span> PARA <br />
-            O SEU CARRO
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-yellow/10 border border-brand-yellow/20 text-brand-yellow text-sm font-black tracking-widest uppercase mb-8"
+          >
+            <Star className="w-4 h-4 fill-current" />
+            4.9 de avaliação | +129 clientes satisfeitos
+          </motion.div>
+          
+          <h1 className="text-5xl md:text-9xl font-black tracking-tighter mb-8 leading-[0.85] uppercase">
+            Seu carro em <br />
+            <span className="text-brand-yellow text-glow-blue italic">mãos confiáveis</span> <br />
+            em Osasco
           </h1>
-          <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto mb-10 font-medium">
-            Atendimento humanizado, transparente e especializado. A oficina amiga da mulher e inclusiva que seu veículo merece.
+          
+          <p className="text-xl md:text-2xl text-white/80 max-w-3xl mx-auto mb-12 font-medium leading-relaxed">
+            Mais de 13 anos oferecendo diagnóstico preciso, transparência e qualidade. A oficina amiga da mulher e inclusiva que seu veículo merece.
           </p>
           
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a 
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <motion.a 
               href="https://wa.me/551134315654"
-              className="w-full sm:w-auto bg-brand-yellow text-brand-dark px-10 py-4 rounded-full font-black text-lg hover:scale-105 transition-all shadow-xl shadow-brand-yellow/20 flex items-center justify-center gap-2"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full sm:w-auto bg-brand-yellow text-brand-dark px-12 py-5 rounded-full font-black text-xl hover:shadow-[0_0_40px_rgba(250,204,21,0.5)] transition-all flex items-center justify-center gap-3"
             >
-              <MessageCircle className="w-6 h-6" />
+              <MessageCircle className="w-7 h-7" />
               FALAR NO WHATSAPP
-            </a>
-            <a 
+            </motion.a>
+            <motion.a 
               href="#reviews"
-              className="w-full sm:w-auto glass px-10 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all flex items-center justify-center gap-2"
+              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.15)" }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full sm:w-auto glass px-12 py-5 rounded-full font-bold text-xl flex items-center justify-center gap-3"
             >
               VER AVALIAÇÕES
-              <ChevronRight className="w-5 h-5" />
-            </a>
+              <ChevronRight className="w-6 h-6" />
+            </motion.a>
           </div>
         </motion.div>
       </div>
 
       {/* Scroll indicator */}
       <motion.div 
-        animate={{ y: [0, 10, 0] }}
+        animate={{ y: [0, 15, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 hidden md:block"
       >
-        <div className="w-6 h-10 border-2 border-white/20 rounded-full flex justify-center p-1">
-          <div className="w-1 h-2 bg-brand-vibrant rounded-full" />
+        <div className="w-7 h-12 border-2 border-white/20 rounded-full flex justify-center p-1.5">
+          <motion.div 
+            animate={{ height: [8, 16, 8] }}
+            className="w-1.5 bg-brand-yellow rounded-full" 
+          />
         </div>
       </motion.div>
     </section>
@@ -222,54 +244,73 @@ const Gallery = () => {
   ];
 
   return (
-    <section id="about" className="py-24 px-6 bg-brand-dark">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
-          <div className="max-w-2xl">
-            <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">
-              ESTRUTURA <span className="text-brand-primary">MODERNA</span>
-            </h2>
-            <p className="text-white/60 text-lg">
-              Equipamentos de última geração e uma equipe apaixonada pelo que faz. Conheça o espaço onde cuidamos do seu patrimônio com transparência total.
-            </p>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="text-right">
-              <div className="text-3xl font-bold text-brand-yellow">4.9 ⭐</div>
-              <div className="text-sm text-white/40 uppercase tracking-widest">Google Reviews</div>
+    <section id="about" className="py-32 px-6 bg-brand-dark relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-brand-yellow/5 blur-[120px] rounded-full" />
+      
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-10">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 bg-brand-yellow/10 text-brand-yellow px-4 py-2 rounded-full mb-6">
+              <span className="font-black text-sm uppercase tracking-widest">Nossa Estrutura</span>
             </div>
+            <h2 className="text-4xl md:text-8xl font-black tracking-tighter uppercase leading-[0.9]">
+              TECNOLOGIA <br />
+              <span className="text-brand-yellow italic">DE PONTA</span>
+            </h2>
           </div>
+          <p className="text-white/40 text-xl max-w-md font-medium leading-relaxed">
+            Investimos constantemente em equipamentos de última geração para garantir o diagnóstico mais preciso de Osasco.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 h-[800px] md:h-[600px]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-[1000px] md:h-[700px]">
           <motion.div 
-            whileHover={{ scale: 0.98 }}
-            className="md:col-span-8 relative overflow-hidden rounded-3xl group cursor-pointer"
+            whileHover={{ scale: 0.99 }}
+            className="md:col-span-7 relative overflow-hidden rounded-[60px] group cursor-pointer border border-white/10"
           >
-            <img src={images[0].url} alt={images[0].title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-60" />
-            <div className="absolute bottom-8 left-8">
-              <h3 className="text-2xl font-bold">{images[0].title}</h3>
+            <img 
+              src={images[0].url} 
+              alt={images[0].title} 
+              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-80" />
+            <div className="absolute bottom-12 left-12">
+              <h3 className="text-3xl font-black uppercase tracking-tight">{images[0].title}</h3>
+              <p className="text-brand-yellow font-bold uppercase tracking-widest text-sm mt-2">Ambiente Profissional</p>
             </div>
           </motion.div>
-          <div className="md:col-span-4 grid grid-rows-2 gap-4">
+          
+          <div className="md:col-span-5 grid grid-rows-2 gap-6">
             <motion.div 
-              whileHover={{ scale: 0.98 }}
-              className="relative overflow-hidden rounded-3xl group cursor-pointer"
+              whileHover={{ scale: 0.99 }}
+              className="relative overflow-hidden rounded-[60px] group cursor-pointer border border-white/10"
             >
-              <img src={images[1].url} alt={images[1].title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-brand-vibrant/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute bottom-6 left-6">
-                <h3 className="text-lg font-bold">{images[1].title}</h3>
+              <img 
+                src={images[1].url} 
+                alt={images[1].title} 
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-brand-yellow/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute bottom-10 left-10">
+                <h3 className="text-xl font-black uppercase tracking-tight">{images[1].title}</h3>
               </div>
             </motion.div>
+            
             <motion.div 
-              whileHover={{ scale: 0.98 }}
-              className="relative overflow-hidden rounded-3xl group cursor-pointer"
+              whileHover={{ scale: 0.99 }}
+              className="relative overflow-hidden rounded-[60px] group cursor-pointer border border-white/10"
             >
-              <img src={images[2].url} alt={images[2].title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute bottom-6 left-6">
-                <h3 className="text-lg font-bold">{images[2].title}</h3>
+              <img 
+                src={images[2].url} 
+                alt={images[2].title} 
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-brand-yellow/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute bottom-10 left-10">
+                <h3 className="text-xl font-black uppercase tracking-tight">{images[2].title}</h3>
               </div>
             </motion.div>
           </div>
@@ -281,41 +322,48 @@ const Gallery = () => {
 
 const Differentials = () => {
   const items = [
-    { icon: <Heart className="w-8 h-8" />, title: "Inclusividade", desc: "Espaço que acolhe a comunidade LGBTQ+ com respeito e dignidade." },
-    { icon: <Award className="w-8 h-8" />, title: "Amiga da Mulher", desc: "Atendimento sem 'mecâniquês', focado em clareza e honestidade." },
-    { icon: <Users className="w-8 h-8" />, title: "Humanizado", desc: "Você não é apenas um número. Tratamos cada cliente como família." },
-    { icon: <ShieldCheck className="w-8 h-8" />, title: "Transparência", desc: "Mostramos o que precisa ser feito e por que, sem surpresas no orçamento." },
+    { icon: <ShieldCheck className="w-8 h-8" />, title: "Atendimento Transparente", desc: "Mostramos cada detalhe do que seu carro precisa, sem surpresas no orçamento." },
+    { icon: <Zap className="w-8 h-8" />, title: "Diagnóstico Preciso", desc: "Tecnologia de ponta para identificar falhas com 100% de assertividade." },
+    { icon: <Award className="w-8 h-8" />, title: "13 Anos de Experiência", desc: "Uma trajetória de confiança e excelência cuidando de milhares de veículos em Osasco." },
+    { icon: <Heart className="w-8 h-8" />, title: "Inclusividade LGBTQ+", desc: "Um ambiente seguro, acolhedor e respeitoso para todas as pessoas." },
+    { icon: <Users className="w-8 h-8" />, title: "Oficina Amiga da Mulher", desc: "Atendimento didático e honesto, eliminando qualquer barreira de gênero." },
   ];
 
   return (
-    <section className="py-24 px-6 relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-vibrant/10 blur-[120px] rounded-full -z-10" />
+    <section className="py-32 px-6 relative overflow-hidden bg-brand-dark">
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.05)_0%,transparent_50%)]" />
       
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">
-            POR QUE A <span className="text-brand-primary">RPM CAR?</span>
-          </h2>
-          <p className="text-white/60 max-w-2xl mx-auto text-lg">
-            Muito além de uma oficina, somos um centro automotivo focado em pessoas e na quebra de paradigmas do setor.
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="text-center mb-24">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-7xl font-black tracking-tighter mb-8 uppercase"
+          >
+            POR QUE ESCOLHER A <span className="text-brand-yellow">RPM CAR?</span>
+          </motion.h2>
+          <p className="text-white/60 max-w-3xl mx-auto text-xl font-medium leading-relaxed">
+            Muito além de uma oficina, somos um centro automotivo focado em pessoas, transparência e na quebra de paradigmas do setor.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {items.map((item, idx) => (
             <motion.div 
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
               viewport={{ once: true }}
-              className="glass p-8 rounded-3xl hover:border-brand-vibrant/50 transition-all group"
+              whileHover={{ y: -10, borderColor: "rgba(250,204,21,0.4)" }}
+              className="glass p-8 rounded-[32px] border-white/5 transition-all duration-500 group flex flex-col items-center text-center"
             >
-              <div className="w-16 h-16 rounded-2xl bg-brand-vibrant/10 flex items-center justify-center text-brand-vibrant mb-6 group-hover:scale-110 transition-transform glow-blue">
+              <div className="w-20 h-20 rounded-3xl bg-brand-yellow/10 flex items-center justify-center text-brand-yellow mb-8 group-hover:scale-110 transition-transform duration-500 shadow-[0_0_20px_rgba(250,204,21,0.1)]">
                 {item.icon}
               </div>
-              <h3 className="text-xl font-bold mb-4">{item.title}</h3>
-              <p className="text-white/50 leading-relaxed">{item.desc}</p>
+              <h3 className="text-xl font-black mb-4 uppercase tracking-tight leading-tight">{item.title}</h3>
+              <p className="text-white/50 leading-relaxed text-sm font-medium">{item.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -326,50 +374,49 @@ const Differentials = () => {
 
 const Services = () => {
   const services = [
-    { icon: <Zap />, title: "Diagnóstico Eletrônico", desc: "Identificação precisa de falhas com scanners de última geração." },
-    { icon: <Settings />, title: "Mecânica Geral", desc: "Motor, câmbio, suspensão e freios com peças de alta qualidade." },
-    { icon: <Search />, title: "Revisão Preventiva", desc: "Check-up completo para garantir sua segurança e evitar gastos maiores." },
-    { icon: <CheckCircle2 />, title: "Injeção Eletrônica", desc: "Limpeza de bicos, sensores e otimização de consumo de combustível." },
+    { icon: <Zap className="w-10 h-10" />, title: "Diagnóstico Eletrônico", desc: "Identificação precisa de falhas com scanners de última geração e tecnologia avançada." },
+    { icon: <Settings className="w-10 h-10" />, title: "Mecânica Geral", desc: "Motor, câmbio, suspensão e freios com peças de alta qualidade e garantia total." },
+    { icon: <Search className="w-10 h-10" />, title: "Revisão Completa", desc: "Check-up minucioso de todos os sistemas para garantir sua segurança e performance." },
+    { icon: <CheckCircle2 className="w-10 h-10" />, title: "Injeção Eletrônica", desc: "Limpeza de bicos, sensores e otimização completa do consumo e potência." },
   ];
 
   return (
-    <section id="services" className="py-24 px-6 bg-brand-dark/50">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-8">
-              SERVIÇOS <br />
-              <span className="text-brand-primary">ESPECIALIZADOS</span>
-            </h2>
-            <div className="space-y-6">
-              {services.map((s, idx) => (
-                <motion.div 
-                  key={idx}
-                  whileHover={{ x: 10 }}
-                  className="flex gap-6 p-6 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10"
-                >
-                  <div className="text-brand-vibrant">{s.icon}</div>
-                  <div>
-                    <h3 className="text-xl font-bold mb-2">{s.title}</h3>
-                    <p className="text-white/50">{s.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-          <div className="relative">
-            <div className="aspect-square rounded-3xl overflow-hidden glow-blue">
-              <img 
-                src="https://lh3.googleusercontent.com/p/AF1QipNGMhTpH7k6VOb2m7P7oRo6X9cOPl2MmNU_VHEM=s1200" 
-                alt="Mecânico trabalhando na Rpm Car" 
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="absolute -bottom-10 -left-10 glass p-8 rounded-3xl hidden md:block">
-              <div className="text-4xl font-black text-brand-vibrant mb-2">100%</div>
-              <div className="text-sm font-bold uppercase tracking-widest text-white/60">Transparência</div>
-            </div>
-          </div>
+    <section id="services" className="py-32 px-6 bg-brand-dark relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-vibrant/5 blur-[120px] rounded-full" />
+      
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="text-center mb-24">
+          <h2 className="text-4xl md:text-7xl font-black tracking-tighter mb-8 uppercase">
+            SERVIÇOS <span className="text-brand-yellow">VISUAIS E PRECISOS</span>
+          </h2>
+          <p className="text-white/60 max-w-3xl mx-auto text-xl font-medium">
+            Tecnologia automotiva de ponta para garantir que seu veículo rode com máxima segurança e eficiência.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {services.map((s, idx) => (
+            <motion.div 
+              key={idx}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: idx * 0.1 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -15, scale: 1.02 }}
+              className="glass-dark p-10 rounded-[40px] border-white/5 hover:border-brand-yellow/30 transition-all duration-500 group relative overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-brand-yellow/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="text-brand-yellow mb-8 group-hover:scale-110 transition-transform duration-500 relative z-10">
+                {s.icon}
+              </div>
+              <h3 className="text-2xl font-black mb-4 uppercase tracking-tight relative z-10">{s.title}</h3>
+              <p className="text-white/50 leading-relaxed font-medium relative z-10">{s.desc}</p>
+              
+              <div className="mt-8 flex items-center gap-2 text-brand-yellow font-bold text-sm uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 relative z-10">
+                Saiba Mais <ArrowRight className="w-4 h-4" />
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
@@ -381,37 +428,56 @@ const Reviews = () => {
     { name: "Mariana Silva", text: "Atendimento excelente do começo ao fim. Me senti muito respeitada e o serviço ficou impecável.", rating: 5 },
     { name: "Ricardo Oliveira", text: "Profissionalismo e transparência que nunca vi em outra oficina. Recomendo de olhos fechados.", rating: 5 },
     { name: "Juliana Costa", text: "Melhor oficina de Osasco! Preço justo e equipe muito qualificada. Transmitem muita confiança.", rating: 5 },
+    { name: "Marcos Souza", text: "Diagnóstico preciso e rápido. Resolveram um problema que outras oficinas não conseguiam.", rating: 5 },
+    { name: "Ana Paula", text: "Ambiente extremamente limpo e organizado. Transparência total no orçamento.", rating: 5 },
   ];
 
   return (
-    <section id="reviews" className="py-24 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-brand-yellow/10 text-brand-yellow px-4 py-2 rounded-full mb-6">
-            <Star className="w-4 h-4 fill-current" />
-            <span className="font-bold">4.9 de 5 estrelas no Google</span>
+    <section id="reviews" className="py-24 px-6 bg-brand-dark relative overflow-hidden">
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="flex flex-col md:flex-row items-center justify-between mb-16 gap-8">
+          <div className="text-left">
+            <div className="inline-flex items-center gap-2 bg-brand-yellow/10 text-brand-yellow px-4 py-2 rounded-full mb-6">
+              <Star className="w-4 h-4 fill-current" />
+              <span className="font-black text-sm uppercase tracking-widest">4.9/5 no Google</span>
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase">
+              O QUE DIZEM <br />
+              <span className="text-brand-yellow italic">NOSSOS CLIENTES</span>
+            </h2>
           </div>
-          <h2 className="text-4xl md:text-6xl font-black tracking-tighter">
-            O QUE DIZEM <span className="text-brand-vibrant">NOSSOS CLIENTES</span>
-          </h2>
+          <div className="hidden md:flex gap-4">
+            <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white/20">
+              <ChevronRight className="w-8 h-8 rotate-180" />
+            </div>
+            <div className="w-16 h-16 rounded-full border border-brand-yellow/50 flex items-center justify-center text-brand-yellow">
+              <ChevronRight className="w-8 h-8" />
+            </div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="flex gap-8 overflow-x-auto pb-12 snap-x no-scrollbar">
           {reviews.map((r, idx) => (
             <motion.div 
               key={idx}
               whileHover={{ y: -10 }}
-              className="glass-dark p-8 rounded-3xl border-t-2 border-brand-vibrant/30"
+              className="min-w-[320px] md:min-w-[400px] glass-dark p-10 rounded-[40px] border-white/5 snap-center relative group"
             >
-              <div className="flex gap-1 mb-6 text-brand-yellow">
-                {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
+              <div className="absolute top-10 right-10 text-brand-yellow/10 group-hover:text-brand-yellow/20 transition-colors">
+                <MessageCircle size={60} />
               </div>
-              <p className="text-lg italic text-white/80 mb-8 leading-relaxed">"{r.text}"</p>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-brand-vibrant/20 flex items-center justify-center font-bold text-brand-vibrant">
+              <div className="flex gap-1 mb-8 text-brand-yellow">
+                {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-current" />)}
+              </div>
+              <p className="text-xl italic text-white/80 mb-10 leading-relaxed font-medium">"{r.text}"</p>
+              <div className="flex items-center gap-5">
+                <div className="w-14 h-14 rounded-2xl bg-brand-yellow text-brand-dark flex items-center justify-center font-black text-xl shadow-lg">
                   {r.name[0]}
                 </div>
-                <span className="font-bold">{r.name}</span>
+                <div>
+                  <div className="font-black text-lg uppercase tracking-tight">{r.name}</div>
+                  <div className="text-brand-yellow text-xs font-bold uppercase tracking-widest">Cliente Satisfeito</div>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -423,40 +489,61 @@ const Reviews = () => {
 
 const Contact = () => {
   return (
-    <section id="contact" className="py-24 px-6 bg-brand-dark">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+    <section id="contact" className="py-32 px-6 bg-brand-dark relative overflow-hidden">
+      <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-brand-yellow/5 to-transparent" />
+      
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <div>
-            <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-8">
-              ONDE <span className="text-brand-vibrant">ESTAMOS</span>
-            </h2>
-            <div className="space-y-8 mb-12">
-              <div className="flex gap-6">
-                <MapPin className="text-brand-vibrant w-8 h-8 shrink-0" />
-                <div>
-                  <h3 className="text-xl font-bold mb-2">Endereço</h3>
-                  <p className="text-white/60">Rua Maria Antônia Niero, 120 - Santo Antônio, Osasco - SP, 06130-010</p>
-                </div>
-              </div>
-              <div className="flex gap-6">
-                <Phone className="text-brand-vibrant w-8 h-8 shrink-0" />
-                <div>
-                  <h3 className="text-xl font-bold mb-2">Telefone</h3>
-                  <p className="text-white/60">(11) 3431-5654</p>
-                </div>
-              </div>
-            </div>
-            <a 
-              href="https://www.google.com/maps/place/Rpm+Car+Autocenter/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-white/5 hover:bg-white/10 px-8 py-4 rounded-2xl font-bold transition-all border border-white/10"
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
             >
-              ABRIR NO GOOGLE MAPS
-              <ArrowRight className="w-5 h-5" />
-            </a>
+              <h2 className="text-4xl md:text-8xl font-black tracking-tighter mb-10 uppercase leading-[0.9]">
+                VENHA NOS <br />
+                <span className="text-brand-yellow italic">VISITAR</span>
+              </h2>
+              <div className="space-y-10 mb-12">
+                <div className="flex gap-8 group">
+                  <div className="w-16 h-16 rounded-2xl bg-brand-yellow/10 flex items-center justify-center text-brand-yellow shrink-0 group-hover:scale-110 transition-transform duration-500">
+                    <MapPin size={32} />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-black mb-2 uppercase tracking-tight">Localização</h3>
+                    <p className="text-white/60 text-lg font-medium leading-relaxed">Rua Maria Antônia Niero, 120 - Santo Antônio, Osasco - SP, 06130-010</p>
+                  </div>
+                </div>
+                <div className="flex gap-8 group">
+                  <div className="w-16 h-16 rounded-2xl bg-brand-yellow/10 flex items-center justify-center text-brand-yellow shrink-0 group-hover:scale-110 transition-transform duration-500">
+                    <Phone size={32} />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-black mb-2 uppercase tracking-tight">Contato Direto</h3>
+                    <p className="text-white/60 text-lg font-medium">(11) 3431-5654</p>
+                  </div>
+                </div>
+              </div>
+              <motion.a 
+                href="https://www.google.com/maps/place/Rpm+Car+Autocenter/"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05, x: 10 }}
+                className="inline-flex items-center gap-4 bg-white/5 hover:bg-white/10 px-10 py-5 rounded-full font-black text-lg transition-all border border-white/10 uppercase tracking-widest"
+              >
+                ABRIR NO GOOGLE MAPS
+                <ArrowRight className="w-6 h-6" />
+              </motion.a>
+            </motion.div>
           </div>
-          <div className="rounded-3xl overflow-hidden h-[400px] border border-white/10 glow-blue">
+          
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="rounded-[60px] overflow-hidden h-[600px] border border-white/10 shadow-2xl relative group"
+          >
+            <div className="absolute inset-0 border-[20px] border-brand-dark/50 z-10 pointer-events-none rounded-[60px]" />
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.447548772397!2d-46.7995486237616!3d-23.55236796125026!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cf016000000001%3A0x63318d9d784a968!2sRpm%20Car%20Autocenter!5e0!3m2!1spt-BR!2sbr!4v1710810000000!5m2!1spt-BR!2sbr" 
               width="100%" 
@@ -465,8 +552,9 @@ const Contact = () => {
               allowFullScreen 
               loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade"
+              className="grayscale contrast-125 group-hover:grayscale-0 transition-all duration-1000"
             ></iframe>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -475,11 +563,11 @@ const Contact = () => {
 
 const Footer = () => {
   return (
-    <footer className="py-16 px-6 border-t border-white/5 bg-brand-dark">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+    <footer className="py-24 px-6 border-t border-white/5 bg-brand-dark relative overflow-hidden">
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
+            <div className="flex items-center gap-2 mb-10">
               <img 
                 src="/logo.png" 
                 alt="RPM CAR Logo" 
@@ -489,50 +577,55 @@ const Footer = () => {
                   e.currentTarget.style.display = 'none';
                   e.currentTarget.parentElement!.innerHTML = `
                     <div class="flex items-center gap-2">
-                      <div class="w-8 h-8 bg-brand-primary rounded flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white w-5 h-5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                      </div>
-                      <span class="text-xl font-bold tracking-tighter">
-                        RPM CAR <span class="text-brand-primary">AUTOCENTER</span>
+                      <span class="text-2xl font-black tracking-tighter uppercase">
+                        RPM CAR <span class="text-brand-yellow">AUTOCENTER</span>
                       </span>
                     </div>
                   `;
                 }}
               />
             </div>
-            <p className="text-white/40 max-w-sm mb-8">
-              Referência em serviços automotivos em Osasco há mais de 13 anos. Atendimento especializado e humano.
+            <p className="text-white/40 max-w-sm mb-10 text-lg font-medium leading-relaxed">
+              Referência em serviços automotivos em Osasco há mais de 13 anos. Atendimento especializado, humano e transparente.
             </p>
-            <div className="flex gap-4">
-              <a href="https://instagram.com/rpmcar_autocenter" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-vibrant transition-colors">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-vibrant transition-colors">
-                <Facebook className="w-5 h-5" />
-              </a>
+            <div className="flex gap-6">
+              <motion.a 
+                whileHover={{ y: -5, backgroundColor: "#FACC15", color: "#0A1F44" }}
+                href="https://instagram.com/rpmcar_autocenter" 
+                className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center transition-all duration-300 border border-white/10"
+              >
+                <Instagram size={24} />
+              </motion.a>
+              <motion.a 
+                whileHover={{ y: -5, backgroundColor: "#FACC15", color: "#0A1F44" }}
+                href="#" 
+                className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center transition-all duration-300 border border-white/10"
+              >
+                <Facebook size={24} />
+              </motion.a>
             </div>
           </div>
           <div>
-            <h4 className="font-bold mb-6 uppercase tracking-widest text-sm text-brand-vibrant">Links Rápidos</h4>
-            <ul className="space-y-4 text-white/60">
-              <li><a href="#home" className="hover:text-white transition-colors">Início</a></li>
-              <li><a href="#about" className="hover:text-white transition-colors">Sobre Nós</a></li>
-              <li><a href="#services" className="hover:text-white transition-colors">Serviços</a></li>
-              <li><a href="#reviews" className="hover:text-white transition-colors">Avaliações</a></li>
+            <h4 className="font-black mb-8 uppercase tracking-[0.2em] text-xs text-brand-yellow">Navegação</h4>
+            <ul className="space-y-5 text-white/50 font-bold">
+              <li><a href="#home" className="hover:text-brand-yellow transition-colors">Início</a></li>
+              <li><a href="#about" className="hover:text-brand-yellow transition-colors">Sobre Nós</a></li>
+              <li><a href="#services" className="hover:text-brand-yellow transition-colors">Serviços</a></li>
+              <li><a href="#reviews" className="hover:text-brand-yellow transition-colors">Avaliações</a></li>
             </ul>
           </div>
           <div>
-            <h4 className="font-bold mb-6 uppercase tracking-widest text-sm text-brand-vibrant">Horário</h4>
-            <ul className="space-y-4 text-white/60">
-              <li>Segunda - Sexta: 08:00 - 18:00</li>
-              <li>Sábado: 08:00 - 13:00</li>
-              <li>Domingo: Fechado</li>
+            <h4 className="font-black mb-8 uppercase tracking-[0.2em] text-xs text-brand-yellow">Horário de Funcionamento</h4>
+            <ul className="space-y-5 text-white/50 font-bold">
+              <li className="flex justify-between"><span>Seg - Sex:</span> <span className="text-white">08:00 - 18:00</span></li>
+              <li className="flex justify-between"><span>Sábado:</span> <span className="text-white">08:00 - 13:00</span></li>
+              <li className="flex justify-between"><span>Domingo:</span> <span className="text-brand-yellow">Fechado</span></li>
             </ul>
           </div>
         </div>
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/30">
+        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-white/20 font-bold uppercase tracking-widest">
           <p>© 2024 Rpm Car Autocenter. Todos os direitos reservados.</p>
-          <p>Desenvolvido com ❤️ em Osasco</p>
+          <p className="flex items-center gap-2">Desenvolvido com <Heart size={14} className="text-brand-yellow fill-current" /> em Osasco</p>
         </div>
       </div>
     </footer>
@@ -549,14 +642,13 @@ const WhatsAppFloat = () => {
       animate={{ scale: 1, opacity: 1 }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
-      className="fixed bottom-8 right-8 z-50 w-16 h-16 bg-[#25D366] rounded-full flex items-center justify-center shadow-2xl shadow-green-500/40 glow-blue"
-      style={{ boxShadow: '0 0 30px rgba(37, 211, 102, 0.4)' }}
+      className="fixed bottom-8 right-8 z-50 w-16 h-16 bg-brand-yellow rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(250,204,21,0.5)]"
     >
-      <MessageCircle className="w-8 h-8 text-white fill-current" />
+      <MessageCircle className="w-9 h-9 text-brand-dark fill-current" />
       <motion.div 
-        animate={{ scale: [1, 1.2, 1] }}
+        animate={{ scale: [1, 1.4, 1], opacity: [0.5, 0, 0.5] }}
         transition={{ duration: 2, repeat: Infinity }}
-        className="absolute inset-0 bg-green-500 rounded-full -z-10 opacity-50"
+        className="absolute inset-0 bg-brand-yellow rounded-full -z-10"
       />
     </motion.a>
   );
@@ -566,28 +658,25 @@ const WhatsAppFloat = () => {
 
 export default function App() {
   return (
-    <div className="min-h-screen selection:bg-brand-vibrant selection:text-white">
+    <div className="min-h-screen selection:bg-brand-yellow selection:text-brand-dark">
       <Navbar />
       <main>
         <Hero />
+        <Reviews />
         
         {/* CTA Banner */}
-        <div className="bg-brand-vibrant py-6 overflow-hidden whitespace-nowrap border-y border-white/10">
+        <div className="bg-brand-primary py-8 overflow-hidden whitespace-nowrap border-y border-white/5 shadow-2xl relative z-10">
           <motion.div 
             animate={{ x: [0, -1000] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="flex gap-12 items-center"
+            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            className="flex gap-16 items-center"
           >
             {[...Array(10)].map((_, i) => (
-              <div key={i} className="flex items-center gap-4 text-xl font-black uppercase tracking-tighter">
-                <span>Transparência Total</span>
-                <div className="w-2 h-2 bg-white rounded-full" />
-                <span>Oficina Amiga da Mulher</span>
-                <div className="w-2 h-2 bg-white rounded-full" />
-                <span>Inclusividade LGBTQ+</span>
-                <div className="w-2 h-2 bg-white rounded-full" />
-                <span>13 Anos de Experiência</span>
-                <div className="w-2 h-2 bg-white rounded-full" />
+              <div key={i} className="flex items-center gap-8 text-2xl font-black uppercase tracking-tighter text-white/90">
+                <span className="flex items-center gap-2"><CheckCircle2 className="text-brand-yellow" /> Transparência Total</span>
+                <span className="flex items-center gap-2"><Heart className="text-brand-yellow" /> Oficina Amiga da Mulher</span>
+                <span className="flex items-center gap-2"><Award className="text-brand-yellow" /> Inclusividade LGBTQ+</span>
+                <span className="flex items-center gap-2"><Zap className="text-brand-yellow" /> 13 Anos de Experiência</span>
               </div>
             ))}
           </motion.div>
@@ -596,27 +685,27 @@ export default function App() {
         <Gallery />
         <Differentials />
         <Services />
-        <Reviews />
         
         {/* Final CTA */}
-        <section className="py-24 px-6 relative">
-          <div className="max-w-4xl mx-auto glass-dark p-12 md:p-20 rounded-[40px] text-center border-brand-vibrant/20 glow-blue">
-            <h2 className="text-4xl md:text-7xl font-black tracking-tighter mb-8 leading-tight">
-              SEU CARRO MERECE O <br />
-              <span className="text-brand-vibrant italic">MELHOR CUIDADO</span>
+        <section className="py-32 px-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1)_0%,transparent_70%)]" />
+          <div className="max-w-5xl mx-auto glass-dark p-12 md:p-24 rounded-[60px] text-center border-brand-yellow/10 relative z-10">
+            <h2 className="text-4xl md:text-8xl font-black tracking-tighter mb-8 leading-[0.9] uppercase">
+              Pare de arriscar seu carro. <br />
+              <span className="text-brand-yellow italic">Fale com quem entende.</span>
             </h2>
-            <p className="text-xl text-white/60 mb-12 max-w-xl mx-auto">
-              Agende agora sua revisão e experimente o padrão RPM CAR de atendimento.
+            <p className="text-xl md:text-2xl text-white/60 mb-12 max-w-2xl mx-auto font-medium">
+              Agende agora sua revisão e experimente o padrão RPM CAR de atendimento premium.
             </p>
             <motion.a 
               href="https://wa.me/551134315654"
               whileHover={{ scale: 1.05 }}
-              animate={{ boxShadow: ["0 0 0px rgba(250, 204, 21, 0)", "0 0 40px rgba(250, 204, 21, 0.4)", "0 0 0px rgba(250, 204, 21, 0)"] }}
+              animate={{ boxShadow: ["0 0 0px rgba(250, 204, 21, 0)", "0 0 50px rgba(250, 204, 21, 0.4)", "0 0 0px rgba(250, 204, 21, 0)"] }}
               transition={{ duration: 2, repeat: Infinity }}
-              className="inline-flex items-center gap-3 bg-brand-yellow text-brand-dark px-12 py-5 rounded-full font-black text-xl"
+              className="inline-flex items-center gap-4 bg-brand-yellow text-brand-dark px-16 py-6 rounded-full font-black text-2xl shadow-2xl"
             >
-              FALE AGORA NO WHATSAPP
-              <ArrowRight className="w-6 h-6" />
+              CHAMAR NO WHATSAPP AGORA
+              <ArrowRight className="w-8 h-8" />
             </motion.a>
           </div>
         </section>
