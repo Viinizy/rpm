@@ -162,7 +162,7 @@ const Hero = () => {
           animate={{ scale: 1 }}
           transition={{ duration: 15, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
           src="https://lh3.googleusercontent.com/p/AF1QipO7NFABCB3CD-dCzAlAB19pou6XJc_uAvQ-SsY2=s1600" 
-          alt="Fachada Rpm Car Autocenter"
+          alt="Atendimento Confiável"
           className="w-full h-full object-cover"
         />
       </motion.div>
@@ -236,7 +236,7 @@ const Hero = () => {
 
 const Gallery = () => {
   const images = [
-    { url: "https://lh3.googleusercontent.com/p/AF1QipOzO0StDteeI-V84uZCl2KiefWV2jch5HZrIGPt=s1200", title: "Fachada Rpm Car" },
+    { url: "https://lh3.googleusercontent.com/p/AF1QipOzO0StDteeI-V84uZCl2KiefWV2jch5HZrIGPt=s1200", title: "Atendimento Confiável" },
     { url: "https://lh3.googleusercontent.com/p/AF1QipM4dLiAOLw9LWjuhv37EzBJQkc5mlljwCZ4iFn2=s1200", title: "Equipamentos de Ponta" },
     { url: "https://lh3.googleusercontent.com/p/AF1QipNGMhTpH7k6VOb2m7P7oRo6X9cOPl2MmNU_VHEM=s1200", title: "Organização e Limpeza" },
     { url: "https://lh3.googleusercontent.com/p/AF1QipOPueeBhEa_GtXWYyik4qkqCMUYOD-Q_im5iuEG=s1200", title: "Cuidado nos Detalhes" },
